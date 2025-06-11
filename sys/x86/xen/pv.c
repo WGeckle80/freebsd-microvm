@@ -107,8 +107,10 @@ extern uint32_t end;
 /*-------------------------------- Global Data -------------------------------*/
 struct init_ops xen_pvh_init_ops = {
 	.parse_preload_data		= xen_pvh_parse_preload_data,
+#if 0
 	.early_clock_source_init	= xen_clock_init,
 	.early_delay			= xen_delay,
+#endif
 	.parse_memmap			= pvh_parse_memmap,
 };
 
@@ -197,7 +199,12 @@ hammer_time_xen(vm_paddr_t start_info_paddr)
 	}
 
 	/* Set the hooks for early functions that diverge from bare metal */
+#if 0
 	init_ops = xen_pvh_init_ops;
+#else
+	init_ops.parse_preload_data = xen_pvh_parse_preload_data,
+	init_ops.parse_memmap = pvh_parse_memmap,
+#endif
 	hvm_start_flags = start_info->flags;
 
 	/* Now we can jump into the native init function */

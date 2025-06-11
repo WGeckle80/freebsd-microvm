@@ -126,8 +126,9 @@ tsc_freq_cpuid_vm(void)
 
 	if (vm_guest == VM_GUEST_NO)
 		return (false);
-	if (hv_high < 0x40000010)
-		return (false);
+	//if (hv_high < 0x40000010)
+		//return (false);
+
 	do_cpuid(0x40000010, regs);
 	tsc_freq = (uint64_t)(regs[0]) * 1000;
 	tsc_early_calib_exact = 1;
